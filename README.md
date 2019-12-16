@@ -1,6 +1,6 @@
-# mortismoe website files
+# MortIs.Moe Website Files
 
-Included: V1.1 of application, python files, hashes, and py-to-exe compiler.
+Included in release 12/16/19: V1.1 of application, python files, hashes, and py-to-exe compiler.
 
 # Files:
 
