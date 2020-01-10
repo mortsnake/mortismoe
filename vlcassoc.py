@@ -1,3 +1,4 @@
+#Imports for this to function correctly
 import os
 import winreg
 import time
@@ -7,12 +8,16 @@ import webbrowser
 import hashlib
 import ctypes
 
+#Checks if program is run as admin
+#If not, program dies
 if not ctypes.windll.shell32.IsUserAnAdmin():
     print("This program will not work as this user.  Please re-run as Administrator!")
     time.sleep(1)
     input("\nPress Enter to exit.")
     exit()
 
+#Function that gets the MD5 Hash of files
+#See https://www.gohacking.com/what-is-md5-hash/
 def fileHash(filepath):
     md5_hash = hashlib.md5()
     with open(filepath,"rb") as f:
@@ -21,12 +26,14 @@ def fileHash(filepath):
             md5_hash.update(byte_block)
         return md5_hash.hexdigest()
 
+#Asks user if they have VLC installed already
+#If not, then connect to VLC download site and get the .exe
 userinput = input("\nDo you already have VLC installed on your computer?  (If you do, or would not like to update enter 'Y') [y/N]: ")
 userinput = userinput.strip().lower()
 if userinput == "yes" or userinput == "y" or userinput == "ye":
     print("Skipping VLC install, please note that if you DO NOT have this program you WILL NEED IT before running this program!\n")
 else:
-    # First install the latest version of VLC Player
+    # Install the latest version of VLC Player
     print("Installing VLC from source")
     url = 'https://get.videolan.org/vlc/'
     page = urllib.request.urlopen(url)
@@ -40,6 +47,8 @@ else:
     for line in page:
         itemsArr.append(line.decode("utf-8"))
 
+    #Reads the website text to get the last VLC file in the directory
+    #This is the newest version
     for i in range (len(itemsArr)-1, 0, -1):
         if (re.search(r'"\d+\.\d+\.\d+', itemsArr[i])):
             vCheck = itemsArr[i].split("\"")
@@ -49,6 +58,7 @@ else:
 
             print("Downloading version: {}".format(filenameFormatted))
             
+            #Perform the download, as well as the MD5 Sum provided by VideoLAN of the file
             urllib.request.urlretrieve(urlFormatted, cwd+'\\'+filenameFormatted)
             urllib.request.urlretrieve(urlFormatted, cwd+'\\'+filenameFormatted+".md5")
             break
@@ -59,6 +69,7 @@ else:
     print("MD5 Hash Sum of VLC Install File:",fileHash(cwd+'\\'+filenameFormatted))
     print("Please check",cwd+'\\'+filenameFormatted+".md5 for the MD5 Sum provided by VideoLan")
     print("Installing VLC now, please follow the prompts in the next window!")
+    #Runs the file just downloaded to start installation
     while (os.system(cwd+'\\'+filenameFormatted)):
         pass
     print("VLC has been installed!")
@@ -72,6 +83,7 @@ vlcpath = ""
 
 print("Searching...")
 
+#For each drive connected to the computer, find the location VLC was installed to and save it as a variable
 try:
     for drive in drives:
         if vlcpath == "":
@@ -95,7 +107,7 @@ except:
 
 
 
-
+#If this program finds it, great!  If not, it dies.
 if (vlcpath == ""):
     print("Couldn't find VLC installed on your system!  Please ensure it is installed correctly!")
     input("\nPress Enter to exit.")
@@ -103,6 +115,8 @@ if (vlcpath == ""):
 else:
     print("Found VLC!")
 
+#Creates a batch file in the directory that VLC was in that takes a URL given, and runs the following command:
+#vlc.exe --open https://URLTOSTREAMFROM.com/filename
 with open(vlcpath+"MortIsMoe.bat", "w") as file:
     file.write("Setlocal EnableDelayedExpansion\n")
     file.write("set url=%~1\n")
@@ -111,11 +125,15 @@ with open(vlcpath+"MortIsMoe.bat", "w") as file:
 
 print("Setting system variables...")
 
+#Creates registry keys for the vlc:// URI
+#This means whenever you click a link that starts with vlc:// it will associate that link with an application on your computer
+#This application on your computer is the batch script listed above, which opens the link as a VLC network stream
 subkeyTOP = r'vlc'
 subkeyICO = r'vlc\DefaultIcon'
 subkeyCMD = r'vlc\shell\open\command'
 subkeyNAME = r'SOFTWARE\Classes\Applications\MortIsMoe.bat'
 
+#Associates the vlc.exe and batch file and gives it a name of 'VLC media player'
 try:
     hKeyTOP = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, subkeyTOP)
     hKeyICO = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, subkeyICO)
@@ -140,6 +158,9 @@ except WindowsError:
 
 print("All set!  Enjoy the website!")
 
+#Opens the site to confirm that you have downloaded this file and linked the appropriate registry keys
+#You must sign in to ensure that your username is linked correctly
+#This will add in 'vlc://' in front of every video link on the site so it will now open in VLC instead of downloading or in-browser
 webbrowser.open_new_tab("https://www.mortis.moe/downloadauth.php")
 time.sleep(4)
 
