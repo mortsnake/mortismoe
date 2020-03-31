@@ -28,7 +28,7 @@ def fileHash(filepath):
 
 #Asks user if they have VLC installed already
 #If not, then connect to VLC download site and get the .exe
-userinput = input("\nDo you already have VLC installed on your computer?  (If you do, or would not like to update enter 'Y') [y/N]: ")
+userinput = input("\nDo you already have VLC installed on your computer?  (If you do, enter 'Y') [y/N]: ")
 userinput = userinput.strip().lower()
 if userinput == "yes" or userinput == "y" or userinput == "ye":
     print("Skipping VLC install, please note that if you DO NOT have this program you WILL NEED IT before running this program!\n")
