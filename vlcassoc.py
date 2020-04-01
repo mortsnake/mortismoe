@@ -7,13 +7,16 @@ import urllib.request
 import webbrowser
 import hashlib
 import ctypes
+import sys
+
+#Gets file name, in order to be run as admin
+pathsplit = sys.argv[0].split("\\")
+pathjoined = r'\\'.join(pathsplit)
 
 #Checks if program is run as admin
-#If not, program dies
+#If not, run it as such
 if not ctypes.windll.shell32.IsUserAnAdmin():
-    print("This program will not work as this user.  Please re-run as Administrator!")
-    time.sleep(1)
-    input("\nPress Enter to exit.")
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, pathjoined, None, 1)
     exit()
 
 #Function that gets the MD5 Hash of files
