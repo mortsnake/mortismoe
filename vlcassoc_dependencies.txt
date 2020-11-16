@@ -1,5 +1,0 @@
-import os
-import winreg
-import time
-import re
-import urllib.request
