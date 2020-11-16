@@ -1,7 +1,5 @@
-# MortIs.Moe Website Files
-
-Included in release 3/31/20: V1.4 of application, python files, hashes, but same py-to-exe compiler.
-Included in release 12/16/19: V1.1 of application, python files, hashes, and py-to-exe compiler.
+* Included in release 3/31/20: V1.4 of application, python files, hashes, but same py-to-exe compiler.<br>
+* Included in release 12/16/19: V1.1 of application, python files, hashes, and py-to-exe compiler.
 
 # Files:
 
