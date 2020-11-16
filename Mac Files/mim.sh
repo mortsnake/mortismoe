@@ -9,12 +9,12 @@ then
 else
   echo "    Downloading..."
   cd ~/Downloads
-  if [ ! -f vlc-3.0.8.dmg ]
+  if [ ! -f vlc-3.0.9.2.dmg ]
   then
-    curl -O https://videolan.mirrors.hivelocity.net/vlc/3.0.8/macosx/vlc-3.0.8.dmg > mim_installer.log 2>&1
+    curl -O https://get.videolan.org/vlc/3.0.9.2/macosx/vlc-3.0.9.2.dmg > mim_installer.log 2>&1
   fi
   #Need to mount and install the dmg file:
-  hdiutil mount vlc-3.0.8.dmg >> mim_installer.log 2>&1
+  hdiutil mount vlc-3.0.9.2.dmg >> mim_installer.log 2>&1
   echo "    Installing...  This might take a second!"
   cp -r /Volumes/VLC\ media\ player/VLC.app /Applications/VLC.app
   echo "    Cleaning up..."
