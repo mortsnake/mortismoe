@@ -121,9 +121,7 @@ else:
 #Creates a batch file in the directory that VLC was in that takes a URL given, and runs the following command:
 #vlc.exe --open https://URLTOSTREAMFROM.com/filename
 with open(vlcpath+"MortIsMoe.bat", "w") as file:
-    file.write("Setlocal EnableDelayedExpansion\n")
     file.write("set url=%~1\n")
-    file.write("set url=!url: =%%20!\n")
     file.write(r'start "VLC" "'+vlcpath+'vlc.exe" --open "%url:~6%"\n')
 
 print("Setting system variables...")
