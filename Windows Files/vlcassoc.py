@@ -162,7 +162,7 @@ print("All set!  Enjoy the website!")
 #Opens the site to confirm that you have downloaded this file and linked the appropriate registry keys
 #You must sign in to ensure that your username is linked correctly
 #This will add in 'vlc://' in front of every video link on the site so it will now open in VLC instead of downloading or in-browser
-webbrowser.open_new_tab("https://www.mortis.moe/downloadauth.php")
+webbrowser.open_new_tab("https://www.mortis.moe/account/manage/action/vlcassoc")
 time.sleep(4)
 
 input("\nPress Enter to Quit")
